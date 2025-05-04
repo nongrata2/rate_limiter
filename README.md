@@ -40,14 +40,14 @@ docker compose up --build
 
 # Bot commands:
 
-| Method       | Endpoint                                  | Description      |Example    |
-|--------------|----------------------------------------------|-----------------------|
-| POST     | `/clients`   | Add a new client              |`curl -X POST http://localhost:8080/clients -H "Content-Type: application/json" -d '{"client_id": "user1", "capacity": 2, "refill_rate_seconds": 1}'`
-| GET  | `/clients`                      | List all clients           |`curl http://localhost:8080/clients`
-| GET  | `/clients/{key}`                      | Get a client by key           |`curl http://localhost:8080/clients/{client_id}`
-| PUT               | `/clients/{key}` | Update client's info|`curl -X PUT http://localhost:8080/clients/{client_id} -H "Content-Type: application/json" -d '{"capacity": 5, "refill_rate_seconds": 2}' `
-| DELETE | `/clients/{key}` | Delete a client                   |`curl -X DELETE http://localhost:8080/clients/{client_id}`
-| POST        | `/api`                         | Protected endpoint with rate limiting                | `curl -H "X-API-Key: {client_id}" http://localhost:8080/api`
+| Method   | Endpoint                | Description                          | Example |
+|----------|-------------------------|--------------------------------------|---------|
+| POST     | `/clients`              | Add a new client                     | `curl -X POST http://localhost:8080/clients -H "Content-Type: application/json" -d '{"client_id": "user1", "capacity": 2, "refill_rate_seconds": 1}'` |
+| GET      | `/clients`              | List all clients                     | `curl http://localhost:8080/clients` |
+| GET      | `/clients/{key}`        | Get a client by key                  | `curl http://localhost:8080/clients/{client_id}` |
+| PUT      | `/clients/{key}`        | Update client's info                 | `curl -X PUT http://localhost:8080/clients/{client_id} -H "Content-Type: application/json" -d '{"capacity": 5, "refill_rate_seconds": 2}'` |
+| DELETE   | `/clients/{key}`        | Delete a client                      | `curl -X DELETE http://localhost:8080/clients/{client_id}` |
+| POST     | `/api`                  | Protected endpoint with rate limiting | `curl -H "X-API-Key: {client_id}" http://localhost:8080/api` |
 
 - client_id - client id, specified as client_id while creating new user
 - capacity - the maximum number of requests a client can make before hitting the limit.
