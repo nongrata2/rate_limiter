@@ -1,0 +1,14 @@
+limit_capacity: 100
+limit_refill_rate_seconds: 1
+
+client_rate_limits:
+  - key: "user1"
+    capacity: 200
+    refill_rate_seconds: 1
+  - key: "admin1"
+    unlimited: true
+  - key: "user2"
+    capacity: 50
+    refill_rate_seconds: 5
+address: localhost:8080
+log_level: DEBUG
