@@ -1,7 +1,6 @@
 default_limit:
   capacity: 50
   refill_rate_seconds: 1s
-
 client_rate_limits:
   - key: "user1"
     capacity: 200
@@ -9,10 +8,6 @@ client_rate_limits:
     unlimited: false
   - key: "admin1"
     unlimited: true
-  - key: "user2"
-    capacity: 50
-    refill_rate_seconds: 5s
-    unlimited: false
 address: :8080
 log_level: DEBUG
 db_host: db

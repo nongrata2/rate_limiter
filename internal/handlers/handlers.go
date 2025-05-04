@@ -100,9 +100,18 @@ func ListClientsHandler(log *slog.Logger, db repositories.DBInterface) http.Hand
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(response); err != nil {
-			log.Error("Error encoding response", "error", err)
+		jsonData, err := json.MarshalIndent(response, "", "    ")
+		if err != nil {
+			log.Error("Error marshaling response", "error", err)
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
+		_, err = w.Write(jsonData)
+		if err != nil {
+			log.Error("Error writing response", "error", err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
 		}
 
 		log.Info("End listing clients")

@@ -54,3 +54,33 @@ func (s *BucketStore) Delete(key string) {
 	defer s.mu.Unlock()
 	delete(s.buckets, key)
 }
+
+func (s *BucketStore) StartBackgroundRefill(interval time.Duration) {
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		s.mu.RLock()
+		for _, bucket := range s.buckets {
+			if !bucket.unlimited && interval <= bucket.refillRate {
+				bucket.Refill()
+			}
+		}
+		s.mu.RUnlock()
+	}
+}
+
+func (tb *TokenBucket) Refill() {
+	tb.mu.Lock()
+	defer tb.mu.Unlock()
+
+	now := time.Now()
+	elapsed := now.Sub(tb.lastRefill)
+
+	newTokens := int64(elapsed / tb.refillRate)
+
+	if newTokens > 0 {
+		tb.tokens = min(tb.capacity, tb.tokens+newTokens)
+		tb.lastRefill = now
+	}
+}

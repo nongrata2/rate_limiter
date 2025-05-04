@@ -14,6 +14,7 @@ import (
 	"ratelimiter/internal/handlers"
 	"ratelimiter/internal/rate_limiter"
 	"ratelimiter/internal/repositories"
+	"time"
 
 	"syscall"
 )
@@ -42,6 +43,7 @@ func main() {
 	log.Info("successfully connected to database")
 
 	store := rate_limiter.NewBucketStore()
+	go store.StartBackgroundRefill(100 * time.Millisecond)
 
 	clientsFromDB, err := storage.ListClients(context.Background())
 	if err != nil {
