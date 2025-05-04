@@ -1,14 +1,22 @@
-limit_capacity: 100
-limit_refill_rate_seconds: 1
+default_limit:
+  capacity: 50
+  refill_rate_seconds: 1s
 
 client_rate_limits:
   - key: "user1"
     capacity: 200
-    refill_rate_seconds: 1
+    refill_rate_seconds: 1s
+    unlimited: false
   - key: "admin1"
     unlimited: true
   - key: "user2"
     capacity: 50
-    refill_rate_seconds: 5
-address: localhost:8080
+    refill_rate_seconds: 5s
+    unlimited: false
+address: :8080
 log_level: DEBUG
+db_host: db
+db_user: postgres
+db_password: postgres
+db_name: postgres
+db_port: 5432

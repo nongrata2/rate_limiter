@@ -15,6 +15,10 @@ type TokenBucket struct {
 }
 
 func NewTokenBucket(capacity int64, refillRate time.Duration, unlimited bool) *TokenBucket {
+	if refillRate <= 0 {
+		refillRate = time.Second
+	}
+
 	return &TokenBucket{
 		capacity:   capacity,
 		tokens:     capacity,

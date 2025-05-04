@@ -1,6 +1,10 @@
 package rate_limiter
 
-import "sync"
+import (
+	"ratelimiter/internal/models"
+	"sync"
+	"time"
+)
 
 type BucketStore struct {
 	buckets map[string]*TokenBucket
@@ -11,6 +15,26 @@ func NewBucketStore() *BucketStore {
 	return &BucketStore{
 		buckets: make(map[string]*TokenBucket),
 	}
+}
+
+func (s *BucketStore) GetOrCreate(key string, limit models.Limit) *TokenBucket {
+	s.mu.RLock()
+	b, exists := s.buckets[key]
+	s.mu.RUnlock()
+
+	if exists {
+		return b
+	}
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	if b, exists = s.buckets[key]; exists {
+		return b
+	}
+
+	tb := NewTokenBucket(limit.Capacity, time.Second*time.Duration(limit.RefillRate), false)
+	s.buckets[key] = tb
+	return tb
 }
 
 func (s *BucketStore) Get(key string) *TokenBucket {
