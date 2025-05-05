@@ -12,7 +12,12 @@ This project implements a rate-limiting HTTP service using the Token Bucket algo
 - Concurrent-safe operations with minimal locks
 
 # Getting started
-1. Fill the config.yaml file. For example:
+1. Clone the repository
+```sh
+git clone https://github.com/nongrata2/rate_limiter
+cd rate_limiter
+```
+2. Fill the config.yaml file in root directory. For example:
 ```yaml
 default_limit:
   capacity: 100
@@ -32,7 +37,7 @@ db_password: postgres
 db_name: ratelimiter
 db_port: 5432
 ```
-2. From root folder run
+3. From root folder run
 ```sh
 docker compose up --build
 ```
